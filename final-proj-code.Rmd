@@ -29,17 +29,25 @@ data = data1 %>%
 ```{r}
 
 mean.deviation = function(df){
+  #creates a vector for row means/means for every particpant's scores
   row.mean =  df %>% 
                 as_tibble() %>% 
                 rowwise() %>% 
                 mutate(row.mean = mean(df, na.rm = T))
-  output = data %>% 
+  return(row.mean)
+
+  #This should be a dataframe consisting of every participant's original score subtracted by the mean score
+  output = df %>% 
             as_tibble() %>% 
-            map2(df, row.mean, `-`) %>% 
-            colnames(output) = paste(names(data), ".ips", sep="")
+            mutate(map(df, row.mean, `-`)) 
+  #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
+  colnames(output) = paste(names(df), ".ips", sep="")
+  return(output)
 }
 
 mean.deviation(df1)
+
+#Repeat the same as above but this time standardize it by dividing the score by sd of rows
 
 
 ip.data = data %>% 
