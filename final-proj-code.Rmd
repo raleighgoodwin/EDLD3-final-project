@@ -33,17 +33,57 @@ mean.deviation = function(df){
   row.mean =  df %>% 
                 as_tibble() %>% 
                 rowwise() %>% 
-                mutate(row.mean = mean(df, na.rm = T))
-  return(row.mean)
+    #compute means of each row 
+                mutate(row.mean = mean(everything(), na.rm = T))
 
   #This should be a dataframe consisting of every participant's original score subtracted by the mean score
   output = df %>% 
             as_tibble() %>% 
-            mutate(map(df, row.mean, `-`)) 
+            mutate(map(row.mean, row.mean, `-`)) 
   #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
   colnames(output) = paste(names(df), ".ips", sep="")
   return(output)
 }
+
+
+
+
+
+head(iris)
+df = iris %>% 
+  select(Sepal.Length:Petal.Width)#%>% 
+  mutate(mean.row = pmap_dbl(., function(...) mean(c(...))))
+
+#Func 1 = give the original dataframe a group id
+df %>% 
+  mutate(id = row_number())
+    
+#Func 2 = mean for each row - value [group_by, col id for each person]
+
+df %>% 
+  mutate(id = row_number()) %>% 
+  pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
+  group_by(id) %>% 
+  summarise(means_rowwise = mean(value, na.rm = T))
+
+
+
+
+
+
+
+  
+Mean.row = function(df){
+  output = df %>% 
+          mutate(id = row_number())   %>% 
+    
+}
+
+
+
+#Func 2 = subtract 'a value' from each of the cols/rows - func(df, value)
+#Func 3 = loops through rows and the value
+
 
 mean.deviation(df1)
 
