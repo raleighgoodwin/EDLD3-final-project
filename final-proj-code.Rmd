@@ -14,7 +14,6 @@ library(tidyverse)
 library(purrr)
 ```
 
-
 ```{r}
 data1 = rio::import("dataCT.csv")
 
@@ -24,88 +23,8 @@ data = data1 %>%
 
 ```
 
+
 ## Ipsatization - technique used in Personality Psychology for standardizing rows
-### Method 1
-```{r}
-
-mean.deviation = function(df){
-  #creates a vector for row means/means for every particpant's scores
-  row.mean =  df %>% 
-                as_tibble() %>% 
-                rowwise() %>% 
-    #compute means of each row 
-                mutate(row.mean = mean(everything(), na.rm = T))
-
-  #This should be a dataframe consisting of every participant's original score subtracted by the mean score
-  output = df %>% 
-            as_tibble() %>% 
-            mutate(map(row.mean, row.mean, `-`)) 
-  #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
-  colnames(output) = paste(names(df), ".ips", sep="")
-  return(output)
-}
-
-
-
-head(iris)
-d.f = iris %>% 
-  select(Sepal.Length:Petal.Width)#%>% 
-  mutate(mean.row = pmap_dbl(., function(...) mean(c(...))))
-
-
-#Func 1 = mean for each row - value [group_by, col id for each person]
-
-df %>% 
-  mutate(id = row_number()) %>% 
-  pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
-  group_by(id) %>% 
-  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
-  pivot_wider(names_from = col_names, values_from = value) %>% 
-  select(id, !means_rowwise, means_rowwise)
-
-
-
-Mean.row = function(df){
-output = df %>% 
-  mutate(id = row_number()) %>% 
-  pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
-  group_by(id) %>% 
-  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
-  pivot_wider(names_from = col_names, values_from = value) %>% 
-  select(id, !means_rowwise, means_rowwise)
-
-  output
-}
-
-
-
-#Func 2 = subtract 'a value' from each of the cols/rows - func(df, value)
-#Func 3 = loops through rows and the value
-
-
-mean.deviation(df1)
-
-#Repeat the same as above but this time standardize it by dividing the score by sd of rows
-
-
-ip.data = data %>% 
-  select(Q1:Q15) %>% 
-  rowwise() %>% 
-  mutate(row.mean = mean(c(Q1:Q15))) %>% 
-  mutate()
-  
-  
-
-df1 = data %>% 
-  select(Q1:Q15)
-  
-#install.packages("multicon")
-library(multicon)
-ipsatize(data %>% 
-  select(Q1:Q15))
-```
-
-# Ral notes
 
 ```{r}
 # Function 1: Selects only numeric columns
@@ -129,7 +48,7 @@ add_id <- function(df) {
 }
 
 # Function 3: Calculate rowwise means
-
+ #creates a vector for row means/means for every particpant's scores
 mean_row <- function(df){
   
  df_clean <- df %>% 
@@ -146,7 +65,56 @@ mean_row <- function(df){
   output
 }
 
-mean_row(iris)
+#Code here onwards needs more refining
+#This should be a dataframe consisting of every participant's original score subtracted by the mean score
+  output = df %>% 
+            as_tibble() %>% 
+            mutate(map(row.mean, row.mean, `-`)) 
+  #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
+  colnames(output) = paste(names(df), ".ips", sep="")
+  return(output)
+
+
+names(data)
+data %>% 
+  select(TIPI1:TIPI10) %>% 
+mean_row() #Function works!
+
+```
+
+
+
+
+
+
+
+
+### Notes for the group  - can be ignored for the peer review
+```{r}
+
+head(iris)
+d.f = iris %>% 
+  select(Sepal.Length:Petal.Width)#%>% 
+  mutate(mean.row = pmap_dbl(., function(...) mean(c(...))))
+
+
+#Func 1 = mean for each row - value [group_by, col id for each person]
+
+df %>% 
+  mutate(id = row_number()) %>% 
+  pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
+  group_by(id) %>% 
+  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
+  pivot_wider(names_from = col_names, values_from = value) %>% 
+  select(id, !means_rowwise, means_rowwise)
+
+#Func 2 = subtract 'a value' from each of the cols/rows - func(df, value)
+#Func 3 = loops through rows and the value
+
+
+mean.deviation(df1)
+
+#Repeat the same as above but this time standardize it by dividing the score by sd of rows
 
 ```
 
