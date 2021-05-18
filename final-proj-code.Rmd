@@ -50,33 +50,33 @@ mean.deviation = function(df){
 
 
 head(iris)
-df = iris %>% 
+d.f = iris %>% 
   select(Sepal.Length:Petal.Width)#%>% 
   mutate(mean.row = pmap_dbl(., function(...) mean(c(...))))
 
-#Func 1 = give the original dataframe a group id
-df %>% 
-  mutate(id = row_number())
-    
-#Func 2 = mean for each row - value [group_by, col id for each person]
+
+#Func 1 = mean for each row - value [group_by, col id for each person]
 
 df %>% 
   mutate(id = row_number()) %>% 
   pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
   group_by(id) %>% 
-  summarise(means_rowwise = mean(value, na.rm = T))
+  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
+  pivot_wider(names_from = col_names, values_from = value) %>% 
+  select(id, !means_rowwise, means_rowwise)
 
 
 
-
-
-
-
-  
 Mean.row = function(df){
-  output = df %>% 
-          mutate(id = row_number())   %>% 
-    
+output = df %>% 
+  mutate(id = row_number()) %>% 
+  pivot_longer(cols = 1:ncol(df),names_to = "col_names") %>% 
+  group_by(id) %>% 
+  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
+  pivot_wider(names_from = col_names, values_from = value) %>% 
+  select(id, !means_rowwise, means_rowwise)
+
+  output
 }
 
 
