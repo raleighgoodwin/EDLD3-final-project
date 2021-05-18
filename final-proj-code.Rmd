@@ -47,8 +47,6 @@ mean.deviation = function(df){
 
 
 
-
-
 head(iris)
 d.f = iris %>% 
   select(Sepal.Length:Petal.Width)#%>% 
@@ -105,5 +103,50 @@ df1 = data %>%
 library(multicon)
 ipsatize(data %>% 
   select(Q1:Q15))
+```
+
+# Ral notes
+
+```{r}
+# Function 1: Selects only numeric columns
+
+just_num <- function(df) {
+  if(sum(purrr::map_lgl(df, is.numeric)) == 0) {
+    stop("No numeric columns.")
+  }
+    else{
+      df1 <- df[ , purrr::map_lgl(df, is.numeric)]
+      df1
+    }
+}
+
+# Function 2: Add ID column
+
+add_id <- function(df) {
+  df_id <- df %>% 
+    mutate(id = row_number())
+  df_id
+}
+
+# Function 3: Calculate rowwise means
+
+mean_row <- function(df){
+  
+ df_clean <- df %>% 
+   just_num() %>% 
+   add_id()
+  
+ output <- df_clean %>% 
+  pivot_longer(cols = !id, names_to = "col_names") %>% 
+  group_by(id) %>% 
+  mutate(means_rowwise = mean(value, na.rm = T)) %>% 
+  pivot_wider(names_from = col_names, values_from = value) %>% 
+  select(id, !means_rowwise, means_rowwise)
+
+  output
+}
+
+mean_row(iris)
+
 ```
 
