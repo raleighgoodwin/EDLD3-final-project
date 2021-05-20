@@ -1,0 +1,53 @@
+[
+  {
+    "path": "posts/2021-05-19-introduction-to-functional-programming/",
+    "title": "Introduction to Functional Programming",
+    "description": "A overview of functional programming.",
+    "author": [
+      {
+        "name": "Raleigh Goodwin, Vinita Vader, Shijing Zhou",
+        "url": "https://github.com/raleighgoodwin/EDLD3-final-project.git"
+      }
+    ],
+    "date": "2021-05-19",
+    "categories": [],
+    "contents": "\nThis is a place holder for the introduction post for the blog.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-05-19T22:51:02-07:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/2021-05-19-writing-functions-in-r-tutorial-1/",
+    "title": "Writing Functions in R Tutorial - 1",
+    "description": "Tutorial for Writing a Function in R",
+    "author": [
+      {
+        "name": "Raleigh Goodwin, Vinita Vader, Shijing Zhou",
+        "url": "https://github.com/raleighgoodwin/EDLD3-final-project.git"
+      }
+    ],
+    "date": "2021-05-19",
+    "categories": [],
+    "contents": "\nThis is a place holder for tutorial 1.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-05-19T22:51:14-07:00",
+    "input_file": {}
+  },
+  {
+    "path": "posts/welcome/",
+    "title": "Welcome to EDLD 653-Functional Programming",
+    "description": "Welcome to our new blog, EDLD 653-Functional Programming. We hope you enjoy \nreading what we have to say!",
+    "author": [
+      {
+        "name": "Raleigh Goodwin, Vinita Vader, Shijing Zhou",
+        "url": "https://github.com/raleighgoodwin/EDLD3-final-project.git"
+      }
+    ],
+    "date": "2021-05-19",
+    "categories": [],
+    "contents": "\n\n\n\n",
+    "preview": {},
+    "last_modified": "2021-05-19T22:33:22-07:00",
+    "input_file": {}
+  }
+]

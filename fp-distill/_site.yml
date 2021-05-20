@@ -1,0 +1,12 @@
+name: "fp-distill"
+title: "EDLD 653-Functional Programming"
+description: |
+  EDLD 653-Functional Programming
+output_dir: "docs"
+navbar:
+  right:
+    - text: "Home"
+      href: index.html
+    - text: "About"
+      href: about.html
+output: distill::distill_article

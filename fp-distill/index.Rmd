@@ -1,0 +1,5 @@
+---
+title: "EDLD 653-Functional Programming"
+site: distill::distill_website
+listing: posts
+---
