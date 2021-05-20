@@ -1,0 +1,21 @@
+---
+title: "Writing Functions in R Tutorial - 1"
+description: |
+  Tutorial for Writing a Function in R
+author:
+  - name: Raleigh Goodwin, Vinita Vader, Shijing Zhou
+    url: https://github.com/raleighgoodwin/EDLD3-final-project.git
+date: 05-19-2021
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(dev = "ragg.png")
+```
+
+This is a place holder for tutorial 1. 
+
+
