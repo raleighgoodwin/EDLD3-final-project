@@ -3,6 +3,8 @@ title: "EDLD3-final"
 author: "Raleigh Goodwin, Vinita Vader, Shijing Zhou"
 date: "4/21/2021"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -41,6 +43,13 @@ just_num <- function(df) {
     }
 }
 
+#testing <- data %>% 
+#  dplyr::select(married) %>% 
+#  mutate(married = as_factor(married))
+#just_num(testing)
+
+# Area of strength: This is my first time seeing the stop function used in real life, and I think you did a great job - it's parsimonious and effective. I tested it out on a non-numeric data frame and the error message worked! 
+
 # Function 2: Add ID column
 
 add_id <- function(df) {
@@ -69,6 +78,10 @@ mean_row <- function(df){
   output
 }
 
+# Area of improvement: I think using rowwise analyses is a brilliant idea for ipsatizing data, but I'm confused why you're not using the rowwise function (discussed here https://fp-2021.netlify.app/slides/w4p2.html#41)? It seems like using that function could simplify your code and effectively replace your use of pivot_longer and pivot_wider. 
+
+# An area of strength in your project is the way you're nesting functions within each other. To me, that seems useful because if you need to change/update one of the functions, that change will automatically propagate through the rest!
+
 tmp <- mean_row(data.ip)
 names(tmp)[-1] <- paste0(names(tmp)[-1], "_ips")
 
@@ -90,6 +103,10 @@ pull_var <- function(l, pat) {
                            rep("identity", length(v_raw))),
              value = c(v_ips, v_raw))
 }
+
+# Something I learned: I got a little lost here, still not sure exactly what these steps were about, but I'm really intrigued by your use of the transform function. Weirdly, I don't think I've ever used it or even heard of it, but your use of it makes me want to explore it more!
+
+# Area of strength: Keeping things straight when you've made a transformation to the data can be tricky, and I appreciate that at every stage you've made sure to distinguish in the variable names whether they're raw or ipsatized. 
 
 create_plot <- function(l, pat) {
   ggplot(pull_var(l, pat), aes(value)) +
@@ -117,6 +134,8 @@ names(data)
 data %>% 
   select(TIPI1:TIPI10) %>% 
 mean_row() #Function works!
+
+# This is really cool - I've never seen negative numbers show up in red. Did you...do that? I'd love to know how!!
 
 ```
 
