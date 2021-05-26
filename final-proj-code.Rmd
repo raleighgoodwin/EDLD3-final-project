@@ -11,7 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(tidyverse)
-library(purrr)
+#library(purrr) 
+# I think purrr is automatically loaded when tidyverse is loaded.
 ```
 
 ```{r}
@@ -32,7 +33,8 @@ data.ip =  data1 %>%
 # Function 1: Selects only numeric columns
 
 just_num <- function(df) {
-  if(sum(purrr::map_lgl(df, is.numeric)) == 0) {
+  if(sum(map_lgl(df, is.numeric)) == 0) { 
+    # Since purrr is loaded, you dont have to specify the package
     stop("No numeric columns.")
   }
     else{
@@ -106,7 +108,7 @@ View(pull_var(l, "TIPI1_|TIPI1$"))
 #Code here onwards needs more refining
 #This should be a dataframe consisting of every participant's original score subtracted by the mean score
   output = df %>% 
-            as_tibble() %>% 
+            as_tibble() %>%
             mutate(map(row.mean, row.mean, `-`)) 
   #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
   colnames(output) = paste(names(df), ".ips", sep="")
