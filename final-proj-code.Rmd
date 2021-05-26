@@ -84,7 +84,7 @@ pat <- "TIPI1_|TIPI1$"
 pull_var <- function(l, pat) {
   # include a check, to make sure pat doesn't match multiple cols
   # if so, throw an error
-  v_ips <- l$ips[ ,grepl(pat, names(l$ips)), drop = TRUE]
+  v_ips <- l$ips[ ,grepl(pta, names(l$ips)), drop = TRUE]
   v_raw <- l$raw[ ,grepl(pat, names(l$raw)), drop = TRUE]
   data.frame(transform = c(rep("ips", length(v_ips)),
                            rep("identity", length(v_raw))),
@@ -149,3 +149,16 @@ mean.deviation(df1)
 #Repeat the same as above but this time standardize it by dividing the score by sd of rows
 
 ```
+### Merly's comments
+# A. At least three areas of strength
+#1. Using two smaller function inside a more complex function. It simplifies the last function. 
+#2. Useful function for researcher in psychology field -- they don't have to calculate the ipsatization manually.  
+#3. No code is used repetitively.
+
+# B. least one thing you learned from reviewing their script
+
+## It is very interesting to learn about Ipsatization -> practice of assessing present performance against the prior performance of the person being assessed by (value - rowwise mean).
+
+# C. At least one and no more than three areas for improvement
+## Not sure about the extract_raw function. Raw can easily be called by l$raw (line 88), so perhaps can it be eliminated?  
+## To make the script cleaner and clearer, perhaps you can separate where the functions are defined and place where the functioned are calles. List the call function in a separate chunk at the end of the script. 
