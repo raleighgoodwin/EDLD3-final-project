@@ -161,4 +161,4 @@ mean.deviation(df1)
 
 # C. At least one and no more than three areas for improvement
 ## Not sure about the extract_raw function. Raw can easily be called by l$raw (line 88), so perhaps can it be eliminated?  
-## To make the script cleaner and clearer, perhaps you can separate where the functions are defined and place where the functioned are calles. List the call function in a separate chunk at the end of the script. 
+## To make the script cleaner and clearer, perhaps you can separate where the functions are defined and place where the functioned are called. List the call function in a separate chunk at the end of the script. 
