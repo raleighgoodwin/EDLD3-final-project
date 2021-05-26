@@ -54,23 +54,27 @@ add_id <- function(df) {
 mean_row <- function(df){
   
  df_clean <- df %>% 
-   just_num() %>% 
+   just_num() %>% # I really liked how you used previous functions to create this function. It ended up looking really clean and easy to read from my end!!
    add_id()
   
- output <- df_clean %>% 
+df_clean %>% 
   pivot_longer(cols = !id, names_to = "col_names") %>% 
   group_by(id) %>% 
-  mutate(means_rowwise = mean(value, na.rm = T),
-         value = value - means_rowwise) %>% 
+  mutate(means_rowwise = mean(value, na.rm = T), #good call to think about missing data
+         value = value - means_rowwise) %>% # It might be better here to not overwrite value but to name it something new
   pivot_wider(names_from = col_names, values_from = value) %>% 
-  select(id, !means_rowwise) %>% 
+  select(id, !means_rowwise) %>% # don't think you need id here?
    ungroup()
-
-  output
 }
+
+# I think it would be really helpful in your final version to talk about the process of creating this function and to break down what it is doing since it's a pretty complicated one!  It could be helpful to show what you're doing in a single case before you generalize to a function since it is difficult for someone to understand how the function is working when they can't necessarily run it line by line like they can do for code in one case. That's what I did to figure out what was going on and it was really helpful
+
+# Also, it might be helpful for your final version to label "value" with something more descriptive so it's clearer what you are referencing there  (this comment is also for the pull_var function)
 
 tmp <- mean_row(data.ip)
 names(tmp)[-1] <- paste0(names(tmp)[-1], "_ips")
+
+# Cool trick with the -1 here to skip the id
 
 l <- list("ips" = tmp, "raw" = add_id(data.ip))
 str(l)
@@ -79,6 +83,7 @@ extract_raw <- function(l) {
   l[["raw"]]
 }
 extract_raw(l)
+# Can't figure out what this function is doing... I don't see any output?
 
 pat <- "TIPI1_|TIPI1$"
 pull_var <- function(l, pat) {
@@ -91,11 +96,15 @@ pull_var <- function(l, pat) {
              value = c(v_ips, v_raw))
 }
 
+
+
 create_plot <- function(l, pat) {
   ggplot(pull_var(l, pat), aes(value)) +
   geom_density(aes(fill = transform))
 }
 View(pull_var(l, "TIPI1_|TIPI1$"))
+
+# I'm a little lost here. Will the function `pull_var` tell you if have multiple columns that match a pattern? I'm seeing a column of "ips" and a column of values. If this is code that you expect an audience to read, then it might be helpful to just add in some more descriptive variable names to make it really clear what you mean, e.g., pattern instead of pat
 
 #make separate funcs for tasks below:-
  #change the names of the cols for ipsatized data 
@@ -108,6 +117,7 @@ View(pull_var(l, "TIPI1_|TIPI1$"))
   output = df %>% 
             as_tibble() %>% 
             mutate(map(row.mean, row.mean, `-`)) 
+  
   #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
   colnames(output) = paste(names(df), ".ips", sep="")
   return(output)
@@ -117,6 +127,8 @@ names(data)
 data %>% 
   select(TIPI1:TIPI10) %>% 
 mean_row() #Function works!
+
+# Very cool! Is this the 10 item personality inventory? If it is, you could do something like label the items "Extraversion1", "Conscientiousness1", ... and create a plot or table? Did you reverse code the items that need to be reverse coded?
 
 ```
 
