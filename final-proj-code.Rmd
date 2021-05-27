@@ -69,6 +69,9 @@ mean_row <- function(df){
   output
 }
 
+#nice functions!
+#kinda got lost here for abit, would be helpful to add more comments briefly explaining whats going on!
+
 tmp <- mean_row(data.ip)
 names(tmp)[-1] <- paste0(names(tmp)[-1], "_ips")
 
@@ -81,6 +84,7 @@ extract_raw <- function(l) {
 extract_raw(l)
 
 pat <- "TIPI1_|TIPI1$"
+#helpful error check built into function!
 pull_var <- function(l, pat) {
   # include a check, to make sure pat doesn't match multiple cols
   # if so, throw an error
@@ -107,7 +111,8 @@ View(pull_var(l, "TIPI1_|TIPI1$"))
 #This should be a dataframe consisting of every participant's original score subtracted by the mean score
   output = df %>% 
             as_tibble() %>% 
-            mutate(map(row.mean, row.mean, `-`)) 
+            mutate(row.mean = map(, mean_row, `-`)) # is this attempting to use the mean_row function created above? tried to help but couldnt (T_T)
+  
   #This is trying to name the columns in output; so if original item was "q1" the ipsatized version is "q1.ips"; if 10 questions q1:q10, then 10 more cols q1.ips:q10.ips
   colnames(output) = paste(names(df), ".ips", sep="")
   return(output)
@@ -149,3 +154,17 @@ mean.deviation(df1)
 #Repeat the same as above but this time standardize it by dividing the score by sd of rows
 
 ```
+Peer review
+
+Strengths
+Solid use and number of functions! Cant be too certain about the overall structure but the ones that are complete seemed to work on my end
+
+Nice use of brackets after the name function call to exclude the first element! didnt know you could do that so was super nice to see!
+
+Functional additon of a error check within function using grepl! not quite sure how to manually trigger an error but  was conceptually clear and a helpful example.
+
+Improvements
+The function/variable names where pretty indicative but would be helpful to have somemore comments explaining whats happening at times 
+
+What I learned
+Forgot you can index named columns by the name so was helpful to see this in use.
